@@ -33,7 +33,6 @@ router.post('/', function(req, res, next) {
     }
       
     res.status(200).json({
-      videoID: req.body.videoID,
       pageToken: req.body.pageToken,
       nextPageToken: page.nextPageToken,
       comments: page.comments
