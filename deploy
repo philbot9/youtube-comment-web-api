@@ -1,0 +1,14 @@
+#!/bin/bash
+
+printf "### Removing previouse image (if any)\n"
+docker kill youtube-comment-api 2> /dev/null > /dev/null
+docker rm youtube-comment-api 2> /dev/null > /dev/null
+
+printf "\n### Building Container..."
+docker build -t youtube-comment-api .
+
+printf "\n### Starting Container..."
+containerId=`docker run -d -p 49160:3000 --name youtube-comment-api youtube-comment-api`
+
+printf "\n\n### Result:\n"
+docker ps --filter=[name=youtube-comment-api]
