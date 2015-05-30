@@ -10,25 +10,28 @@ describe('Comment Pager', function(){
 	it('should throw an error if no video ID is provided', function(){
 		expect(getCommentsPage).to.throw(Error);
 		expect(function() {
-			getCommentsPage(null, null, function(){});
+			getCommentsPage(null, null);
 		}).to.throw(Error);
 	});
 
 	it('should give an error (400) for an invalid video ID', function(done){
 		this.timeout(20000);
-		getCommentsPage('fakeID', null, function(error, page) {
-			expect(error).to.exist;
+		getCommentsPage('fakeID', null)
+    .then(function(page) {
 			expect(page).not.to.exist;
-			expect(error).to.have.a.property('status').equal(400);
+      done();
+    })
+    .catch(function(error) {
+      expect(error).to.exist;
+      expect(error).to.have.a.property('status').equal(400);
 			done();
-		});
+    });
 	});
 
 	it('should get a comments page without a page token', function(done){
 		this.timeout(10000);
-		getCommentsPage('pkwOrteyQtY', null, function(error, page){
-			expect(error).not.to.exist;
-
+		getCommentsPage('pkwOrteyQtY', null)
+    .then(function(page) {
 			expect(page).to.have.a.property('comments').that.is.an('array');
 			expect(page.comments).to.have.length.above(1);
 			expect(page).to.have.a.property('nextPageToken').that.is.a('string');
@@ -54,10 +57,10 @@ describe('Comment Pager', function(){
 
 	it('should get a different comments page with a page token', function(done){
 		this.timeout(20000);
-		getCommentsPage('pkwOrteyQtY', null, function(error, page1){
-			getCommentsPage('pkwOrteyQtY', page1.nextPageToken, function(error, page2){
-				expect(error).not.to.exist;
-
+		getCommentsPage('pkwOrteyQtY', null)
+    .then(function(page1){
+			getCommentsPage('pkwOrteyQtY', page1.nextPageToken)
+      .then(function(page2){
 				expect(page1).to.not.deep.equal(page2);
 				
 				expect(page2).to.have.a.property('comments').that.is.an('array');

@@ -9,7 +9,8 @@ describe("Youtube Session", function(){
 
 	it("should get a session token", function(done){
 		this.timeout(10000);
-		getSessionToken('eKEwL-10s7E', function(error, sessionToken){
+		getSessionToken('eKEwL-10s7E')
+    .then(function(sessionToken){
 			expect(sessionToken).to.be.a('string');
 			expect(sessionToken).to.have.length.above(1);
 			done();
@@ -18,8 +19,10 @@ describe("Youtube Session", function(){
 
 	it("should remember a session token", function(done){
 		this.timeout(10000);
-		getSessionToken('eKEwL-10s7E', function(error, sessionToken1){
-			getSessionToken('eKEwL-10s7E', function(error, sessionToken2){
+		getSessionToken('eKEwL-10s7E')
+    .then(function(sessionToken1){
+			getSessionToken('eKEwL-10s7E')
+      .then(function(sessionToken2){
 				expect(sessionToken1).to.equal(sessionToken2);
 				done();
 			});
