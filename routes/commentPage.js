@@ -16,18 +16,17 @@ router.post('/', function(req, res, next) {
   
   var pageToken = req.body.pageToken || null;
  
-  getCommentPage(videoID, pageToken, function(error, page){
-    if(error) {
-      console.error(error);
-      return res.status(400).json({
-        error: 'Fetching comment page failed.'
-      });
-    }
-
+  getCommentPage(videoID, pageToken).then(function(page) {
+    if(!page) throw new Error('Did not receive a comment page from comment-pager');
     res.status(200).json({
       pageToken: req.body.pageToken,
       nextPageToken: page.nextPageToken,
       comments: page.comments
+    });    
+  }).catch(function(error) {
+    console.error(error);
+    res.status(500).json({
+      error: 'Fetching comment page failed.'
     });
   });
 });
