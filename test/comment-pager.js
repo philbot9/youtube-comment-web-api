@@ -86,5 +86,15 @@ describe('Comment Pager', function(){
 			});
 		});
 	});
-
+  
+  it('should include the video comment count', function(done) {
+    this.timeout(20000);
+		getCommentsPage('pkwOrteyQtY', null)
+    .then(function(page){
+      expect(page).to.exist;
+      expect(page).to.have.a.property('videoCommentCount').that.is.a('number');
+      expect(page.videoCommentCount).to.be.above(0);
+      done();
+    });
+  });
 });
