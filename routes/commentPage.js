@@ -21,6 +21,7 @@ router.post('/', function(req, res, next) {
     res.status(200).json({
       pageToken: req.body.pageToken,
       nextPageToken: page.nextPageToken,
+      videoCommentCount: page.videoCommentCount,
       comments: page.comments
     });    
   }).catch(function(error) {
