@@ -1,6 +1,6 @@
 #!/bin/bash
 
-printf "### Removing previouse image (if any)\n"
+printf "### Removing previous image (if any)\n"
 docker kill youtube-comment-api 2> /dev/null > /dev/null
 docker rm youtube-comment-api 2> /dev/null > /dev/null
 
