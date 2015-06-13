@@ -4,10 +4,10 @@ printf "### Removing previous image (if any)\n"
 docker kill youtube-comment-api 2> /dev/null > /dev/null
 docker rm youtube-comment-api 2> /dev/null > /dev/null
 
-printf "\n### Building Container..."
+printf "\n### Building Container...\n"
 docker build -t youtube-comment-api .
 
-printf "\n### Starting Container..."
+printf "\n### Starting Container...\n"
 containerId=`docker run -d -p 49160:3000 --name youtube-comment-api youtube-comment-api`
 
 printf "\n\n### Result:\n"
